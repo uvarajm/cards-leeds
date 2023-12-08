@@ -14,19 +14,19 @@ const Deck = () => {
   const [drawnCards, setDrawnCards] = useState([]);
   const symbols = [faTree, faSpa, faHeart, faDiamond];
   const numbers = [
-    "A",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "J",
-    "Q",
-    "K",
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
   ];
 
   /* Creating the Deck of Cards */
@@ -61,19 +61,31 @@ const Deck = () => {
   /* Shuffle the deck of cards */
   const shuffleCardsClick = () => {
     const shuffleValue = cards.sort(() => Math.random() - 0.5);
-    console.log(shuffleValue);
     setShuffleCards(shuffleValue);
   };
 
+  const sortCards = (a,b)=>{
+    if(a.className !== b.className) {
+      return a.className - b.className
+    }
+    return a.number-b.number
+
+  }
   /* Sort the drawn cards based on symbols and numbers  */
   const sortSelectedCard = () => {
-    const sortedCards = drawnCards.sort((a, b) => a.className - b.className);
+    const sortedCards = drawnCards.sort(sortCards);
     setSortedCards(sortedCards);
   };
+
+  const displayCardNum = (number)=>{
+    if (number === 11) return 'J'
+    if (number === 12) return 'Q'
+    if (number === 13) return 'K'
+    if (number === 1) return 'A'
+    return number
+  }
   return (
     <div className="deck">
-
-      <button className="button"> Deck of Cards</button>
       <button className="button" onClick={shuffleCardsClick}>Shuffle Card</button>
       <div className="containerDeck">
         {cards.length > 0 &&
@@ -82,7 +94,7 @@ const Deck = () => {
               <div classname="container">
                 <h4>
                   <b>
-                    {card.number}{" "}
+                    {displayCardNum(card.number)}{" "}
                     <span className={`ico-${card.className}`}>
                       {" "}
                       <FontAwesomeIcon icon={card.symbols} />
@@ -102,7 +114,7 @@ const Deck = () => {
                 <div classname="container">
                   <h4>
                     <b>
-                      {card.number}{" "}
+                      {displayCardNum(card.number)}{" "}
                       <span className={`ico-${card.className}`}>
                         {" "}
                         <FontAwesomeIcon icon={card.symbols} />
