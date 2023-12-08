@@ -13,21 +13,7 @@ const Deck = () => {
   const deckOfCards = [];
   const [drawnCards, setDrawnCards] = useState([]);
   const symbols = [faTree, faSpa, faHeart, faDiamond];
-  const numbers = [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-  ];
+  const numbers = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,14];
 
   /* Creating the Deck of Cards */
   symbols.map((item, index) =>
@@ -51,42 +37,45 @@ const Deck = () => {
   };
   const [sortedCards, setSortedCards] = useState([]);
   const [shuffleCards, setShuffleCards] = useState([]);
-
+  const [count, setCount] = useState(0);
+  
   /* Below useEffect used to re-render the component whenever sort (drawn by user) or shuffle (deck of cards) functionality invoked */
   useEffect(() => {
     if (sortedCards.length > 0) setDrawnCards(sortedCards);
     if (shuffleCards.length > 0) setCards(shuffleCards);
-  }, [sortedCards, shuffleCards]);
+  }, [sortedCards, count, shuffleCards]);
 
   /* Shuffle the deck of cards */
   const shuffleCardsClick = () => {
     const shuffleValue = cards.sort(() => Math.random() - 0.5);
     setShuffleCards(shuffleValue);
+    setCount((prevCount) => prevCount + 1);
   };
 
-  const sortCards = (a,b)=>{
-    if(a.className !== b.className) {
-      return a.className - b.className
+  const sortCards = (a, b) => {
+    if (a.className !== b.className) {
+      return a.className - b.className;
     }
-    return a.number-b.number
-
-  }
+    return a.number - b.number;
+  };
   /* Sort the drawn cards based on symbols and numbers  */
   const sortSelectedCard = () => {
     const sortedCards = drawnCards.sort(sortCards);
     setSortedCards(sortedCards);
   };
 
-  const displayCardNum = (number)=>{
-    if (number === 11) return 'J'
-    if (number === 12) return 'Q'
-    if (number === 13) return 'K'
-    if (number === 1) return 'A'
-    return number
-  }
+  const displayCardNum = (number) => {
+    if (number === 11) return "J";
+    if (number === 12) return "Q";
+    if (number === 13) return "K";
+    if (number === 14) return "A";
+    return number;
+  };
   return (
     <div className="deck">
-      <button className="button" onClick={shuffleCardsClick}>Shuffle Card</button>
+      <button className="button" onClick={shuffleCardsClick}>
+        Shuffle Card
+      </button>
       <div className="containerDeck">
         {cards.length > 0 &&
           cards?.map((card, index) => (
@@ -105,7 +94,9 @@ const Deck = () => {
             </div>
           ))}
       </div>
-      <button className="button" onClick={sortSelectedCard}>Sort</button>
+      <button className="button" onClick={sortSelectedCard}>
+        Sort
+      </button>
       {drawnCards.length > 0 && (
         <div className="containerDeck">
           {drawnCards.length > 0 &&
